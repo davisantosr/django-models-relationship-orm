@@ -22,7 +22,7 @@ class Montadora(models.Model):
   def __str__(self):
     return self.nome
 
-def _set_default_montadora():
+def set_default_montadora():
   return Montadora.objects.get_or_create(nome="padrão"[0])
 
 class Carro(models.Model):
