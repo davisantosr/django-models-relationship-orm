@@ -22,6 +22,8 @@ class Montadora(models.Model):
   def __str__(self):
     return self.nome
 
+def _set_default_montadora():
+  return Montadora.objects.get_or_create(nome="padrão"[0])
 
 class Carro(models.Model):
 
@@ -40,7 +42,7 @@ class Carro(models.Model):
 
   """
   chassi = models.OneToOneField(Chassi, on_delete=models.CASCADE)
-  montadora = models.ForeignKey(Montadora, on_delete=models.SET_DEFAULT, default=1)
+  montadora = models.ForeignKey(Montadora, on_delete=models.SET(set_default_montadora))
 
   motoristas = models.ManyToManyField(get_user_model())
   modelo = models.CharField('Modelo', max_length=30, help_text='Maximo 30 caracteres')
