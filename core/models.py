@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
 
 class Chassi(models.Model):
   numero = models.CharField('Chassi', max_length=16, help_text='Máximo de 16 caracteres')
@@ -26,15 +28,20 @@ class Carro(models.Model):
   """
     #OneToOneField
     Cada carro se relaciona com apenas um chassi 
-    e um chassi se relaciona apenas com um carro
+    e um chassi se relaciona apenas com um carro.
 
     #ForeignKey (Relação OneToMany)
     Cada carro tem uma montadora. Uma montadora
-    pode ter diversos carros
+    pode ter diversos carros.
+
+    #MantToMany
+    Um carro pode ser dirigido por vários motoristas e
+    um motorista pode dirigir diversos carros.
 
   """
   chassi = models.OneToOneField(Chassi, on_delete=models.CASCADE)
   montadora = models.ForeignKey(Montadora, on_delete=models.CASCADE)
+  motoristas = models.ManyToManyField(get_user_model())
   modelo = models.CharField('Modelo', max_length=30, help_text='Maximo 30 caracteres')
   preco = models.DecimalField('Preço', max_digits=8, decimal_places=2)
 
